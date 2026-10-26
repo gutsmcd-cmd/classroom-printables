@@ -1,4 +1,6 @@
+import './andika.css'
 import './style.css'
+const fontsReady = () => Promise.all([document.fonts.load('700 48px "ABC Print"'), document.fonts.load('700 48px Andika')]).then(() => document.fonts.ready).catch(() => {})
 import { L, lang, setLang, lines, pair, loadImage, esc } from './util'
 import { wordSearch, crossword, scramble, matching } from './words'
 import { maze, sudoku, bingo, tracing } from './puzzles'
@@ -63,7 +65,7 @@ const TABS: Tab[] = [
     form: () => titleIn(L('なぞり書き', 'Handwriting practice')) + `<label class="full">${L('書く文字（1行ずつ）', 'Text to practise (one line each)')} ${ta('t-text', L('あいうえお\nかきくけこ\nありがとう', 'Aa Bb Cc Dd\nThe cat sat.\nThank you'), 5)}</label>
       <label>${L('文字の大きさ', 'Letter size')} ${sel('t-size', [['10', L('小', 'Small')], ['14', L('中', 'Medium')], ['20', L('大', 'Large')]], '14')}</label>
       <label>${L('なぞる回数', 'Tracing rows')} ${sel('t-rep', [['1', '1'], ['2', '2'], ['3', '3']], '2')}</label>
-      <label>${L('書体', 'Style')} ${sel('t-font', [['"Andika","Comic Sans MS","Klee One","Hiragino Maru Gothic ProN","Noto Sans JP",sans-serif', L('まるい', 'Rounded')], ['"Klee One","UD Digi Kyokasho N-R","YuKyokasho","Hiragino Mincho ProN",serif', L('教科書体', 'School')], ['sans-serif', L('ゴシック', 'Plain')]], '"Andika","Comic Sans MS","Klee One","Hiragino Maru Gothic ProN","Noto Sans JP",sans-serif')}</label>`,
+      <label>${L('書体', 'Style')} ${sel('t-font', [['"ABC Print",Andika,"Klee One","Hiragino Maru Gothic ProN","Noto Sans JP",sans-serif', L('まるい', 'Rounded')], ['"Klee One","UD Digi Kyokasho N-R","YuKyokasho","Hiragino Mincho ProN",serif', L('教科書体', 'School')], ['sans-serif', L('ゴシック', 'Plain')]], '"ABC Print",Andika,"Klee One","Hiragino Maru Gothic ProN","Noto Sans JP",sans-serif')}</label>`,
     make: () => tracing(v('title'), lines(v('t-text')), num('t-rep'), num('t-size'), v('t-font')) },
   { id: 'match', icon: '🔗', ja: '線むすび', en: 'Matching',
     form: () => titleIn(L('線むすび', 'Matching')) + `<label class="full">${L('「左 - 右」を1行に1つ', 'One "left - right" per line')} ${ta('mt-pairs', SAMPLE_PAIRS())}</label>`,
@@ -99,7 +101,7 @@ function render() {
   app.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach(b => (b.onclick = () => { tab = b.dataset.tab!; localStorage.setItem('cp-tab', tab); render() }))
   $('keys').onchange = () => { keys = ($('keys') as HTMLInputElement).checked; $('pages').classList.toggle('nokeys', !keys) }
   $('form').onsubmit = async e => { e.preventDefault(); await make(t) }
-  $('print').onclick = async () => { if (!$('pages').children.length) await make(t); window.print() }
+  $('print').onclick = async () => { if (!$('pages').children.length) await make(t); await fontsReady(); window.print() }
   app.querySelectorAll<HTMLTextAreaElement>('textarea').forEach(el => (el.oninput = () => localStorage.setItem('cp-' + el.id, el.value)))
   const photoEl = document.getElementById('photo') as HTMLInputElement | null
   if (photoEl) photoEl.onchange = async () => { const f = photoEl.files?.[0]; if (f) { photo = await loadImage(f); if (t.id === 'dots') ($('d-shape') as HTMLSelectElement).value = 'photo'; await make(t) } }
@@ -111,6 +113,7 @@ function render() {
 async function make(t: Tab) {
   const w = $('warn'); w.textContent = ''
   try {
+    await fontsReady()
     const out = await t.make()
     $('pages').innerHTML = out.pages.join('')
     w.textContent = out.warn
