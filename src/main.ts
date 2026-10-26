@@ -20,7 +20,7 @@ const SAMPLE_PAIRS = () => L('犬 - dog\n猫 - cat\n鳥 - bird\n魚 - fish\n馬 
 
 const ta = (id: string, val: string, rows = 8) => `<textarea id="${id}" rows="${rows}">${esc(store(id, val))}</textarea>`
 const titleIn = (d: string) => `<label class="full">${L('タイトル', 'Title')} <input id="title" value="${esc(d)}"></label>`
-const sel = (id: string, opts: [string, string][], d: string) => `<select id="${id}">${opts.map(([val, t]) => `<option value="${val}"${val === d ? ' selected' : ''}>${t}</option>`).join('')}</select>`
+const sel = (id: string, opts: [string, string][], d: string) => `<select id="${id}">${opts.map(([val, t]) => `<option value="${esc(val)}"${val === d ? ' selected' : ''}>${t}</option>`).join('')}</select>`
 const photoIn = () => `<label class="full">${L('写真をえらぶ', 'Choose a photo')} <input type="file" id="photo" accept="image/*"></label>`
 let photo: HTMLImageElement | null = null
 async function needPhoto() {
