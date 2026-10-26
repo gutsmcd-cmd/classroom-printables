@@ -156,7 +156,7 @@ export function tracing(title: string, text: string[], repeats: number, size: nu
   for (const t of text) {
     for (let k = 0; k < repeats; k++) rows.push(`<svg class="trace" viewBox="0 0 180 ${rowH}" width="180mm" height="${rowH}mm">
       <line x1="0" y1="${rowH * 0.15}" x2="180" y2="${rowH * 0.15}" class="g1"/><line x1="0" y1="${rowH * 0.45}" x2="180" y2="${rowH * 0.45}" class="g2"/><line x1="0" y1="${rowH * 0.75}" x2="180" y2="${rowH * 0.75}" class="g1"/>
-      <text x="2" y="${rowH * 0.75}" font-size="${size}" style="font-family:${font}" class="${k === 0 ? 'solid' : 'dash'}">${esc(t)}</text></svg>`)
+      <text x="2" y="${rowH * 0.75}" font-size="${size}" style="font-family:${esc(font)}" class="${k === 0 ? 'solid' : 'dash'}">${esc(t)}</text></svg>`)
     rows.push(`<svg class="trace" viewBox="0 0 180 ${rowH}" width="180mm" height="${rowH}mm"><line x1="0" y1="${rowH * 0.15}" x2="180" y2="${rowH * 0.15}" class="g1"/><line x1="0" y1="${rowH * 0.45}" x2="180" y2="${rowH * 0.45}" class="g2"/><line x1="0" y1="${rowH * 0.75}" x2="180" y2="${rowH * 0.75}" class="g1"/></svg>`)
   }
   const perPage = Math.max(1, Math.floor(240 / (rowH + 2)))
