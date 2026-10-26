@@ -10,4 +10,4 @@ Free, no ads, no login, works offline. Japanese / English. Part of the [free app
 
 **Live:** https://gutsmcd-cmd.github.io/classroom-printables/
 
-Vite + TypeScript PWA. Built to the `gh-pages` branch by GitHub Actions.
+Vite + TypeScript PWA. Bundles Andika Bold (SIL OFL 1.1, see OFL.txt); uses ABC Print instead when installed. Built to the `gh-pages` branch by GitHub Actions.
